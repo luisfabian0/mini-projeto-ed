@@ -43,7 +43,7 @@ int filaEnfileirar(Fila *f, int idCliente) {
     novo->idCliente = idCliente;
     novo->prox = NULL;
 
-    if (f->fim == NULL) {
+    if (filaVazia(f)) {
         f->ini = f->fim = novo;
     } else {
         f->fim->prox = novo;
