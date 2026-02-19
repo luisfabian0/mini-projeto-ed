@@ -25,34 +25,35 @@ int filaVazia(Fila *f) {
 // Insere um novo cliente no final da fila.
 // Mantém a regra FIFO (ordem de chegada).
 // Retorna 1 se sucesso, 0 se falha na alocação.
-
 int filaEnfileirar(Fila *f, int idCliente) {
-    for(int i = 0; i < f->tam; i++) { // Verifica se o cliente ja este na fila 
-        if(f->ini->idCliente == idCliente) {
-            return 0;
+
+    NoFila *p = f->ini;
+
+    while (p != NULL) {
+        if (p->idCliente == idCliente) {
+            return 0; 
         }
-        f->ini = f->ini->prox;
+        p = p->prox;
     }
+
     // Aloca memória para novo nó da fila
     NoFila *novo = (NoFila*) malloc(sizeof(NoFila));
-    if(!novo) return 0; // Falha na alocação
+    if (!novo) return 0;
 
     novo->idCliente = idCliente;
-    novo->prox = NULL; // Sempre entra no final, então não aponta para ninguém
+    novo->prox = NULL;
 
-    // Se a fila estiver vazia, incio e fim apontam para o novo n
-    if(f->fim == NULL) {
+    if (f->fim == NULL) {
         f->ini = f->fim = novo;
-    }
-    // Caso contrário, adiciona no final e atualiza ponteiro fim
-    else {
+    } else {
         f->fim->prox = novo;
         f->fim = novo;
     }
 
-    f->tam++; // Incrementa tamanho da fila
+    f->tam++;
     return 1;
 }
+
 
 // Função: filaDesenfileirar
 // Remove o primeiro elemento da fila (ordem FIFO).
@@ -88,4 +89,5 @@ int filaDesenfileirar(Fila *f, int *idOut) {
 int filaTamanho(Fila *f) {
     return f->tam;
 }
+
 
